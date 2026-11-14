@@ -17,29 +17,33 @@
  * Exemple : searchCards(cards, "kit") → [Emberkit, Sparkit]
  */
 export function searchCards(cards, term) {
-  // TODO 1. Nettoyez le terme : trim() puis toLowerCase()
-  // TODO 2. Si le terme est vide, renvoyez une copie de cards
-  // TODO 3. Sinon, renvoyez cards.filter(...) : le nom en minuscules contient-il le terme ?
-  return [];
+  const cleanTerm =  term.toLowerCase().trim()
+  if (cleanTerm === "") {
+    const cardsCopy = [...cards]
+    return cardsCopy;
+  } else {
+    const matchingCards =  cards.filter((card) => {
+      return card.nom.toLowerCase().includes(cleanTerm)
+    })
+    return matchingCards;
+  } 
 }
 
-/**
- * Renvoie les cartes du type demandé, ou toutes si `type` vaut "Tous".
- * Exemple : filterByType(cards, "Eau") → [Tidalix, Reefling, Aquaphin]
- */
 export function filterByType(cards, type) {
-  // TODO
-  return [];
+  if(type === "Tous"){
+    const cardsCopy = [...cards] 
+    return cardsCopy
+  } else {
+    const matchingCards = cards.filter((card) => {
+      return card.type === type
+    })
+    return matchingCards
+  }
 }
 
-/**
- * Combine la recherche et le type.
- * filters = { term: "kit", type: "Feu" }
- * Exemple : getVisibleCards(cards, { term: "kit", type: "Feu" }) → [Emberkit]
- */
 export function getVisibleCards(cards, filters) {
-  // TODO : appelez filterByType, puis searchCards sur le résultat
-  return [];
+  const cardsOfType = filterByType(cards, filters.type)
+  return searchCards(cardsOfType, filters.term)
 }
 
 /**
@@ -47,10 +51,14 @@ export function getVisibleCards(cards, filters) {
  * Exemple : countByType(cards) → { Feu: 3, Eau: 3, Plante: 3, Électrik: 3 }
  */
 export function countByType(cards) {
-  // TODO 1. Créez un objet vide : const counts = {};
-  // TODO 2. Pour chaque carte : si counts[carte.type] n'existe pas, mettez 0, puis ajoutez 1
-  // TODO 3. Renvoyez counts
-  return {};
+  const counts = {}
+  for (const card of cards) {
+    if (counts[card.type] === undefined) {
+      counts[card.type] = 0
+    }
+    counts[card.type] ++
+  }
+  return counts;
 }
 
 // -------------------------------------------------------------
