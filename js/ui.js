@@ -58,7 +58,13 @@ export function renderTypes(counts, activeType) {
  * Affiche le nombre de cartes visibles dans #count : "5 cartes", "1 carte" ou "Aucune carte".
  */
 export function renderCount(n) {
-  // TODO
+  if(n === 0){
+    count.textContent = "Aucune carte"
+  } else if (n === 1) {
+    count.textContent = "1 carte"
+  } else {
+    count.textContent = n + " cartes" 
+  }
 }
 
 /**
@@ -78,9 +84,37 @@ export function renderCount(n) {
  * - palier 2 : classe is-selected si la carte est dans le panier (cart.some(...))
  */
 export function renderGrid(list, cart) {
-  // TODO 1. Videz #grid
-  // TODO 2. Liste vide : ajoutez le message et arrêtez (return)
-  // TODO 3. Pour chaque carte : créez l'article et ses enfants, puis grid.append(article)
+  grid.innerHTML = "";
+  if (list.length === 0) {
+    const emptyMessage = document.createElement("p")
+    emptyMessage.textContent = "Aucune carte trouvée"
+    emptyMessage.classList.add("empty")
+    grid.append(emptyMessage)
+    return
+  }
+  for(const card of list ){
+    const article = el("article", "card");
+    article.dataset.id = card.id
+    const cardName = el("h3", "card__name", card.nom)
+    const image = el("img", "card__img")
+    image.setAttribute("src", card.image)
+    image.setAttribute("alt", card.nom)
+    const number = el("p", "card__num", formatNumero(card.id))
+    const meta = el("p", "card__meta")
+    const typeBadge = el("span", "badge" + " " + typeClass(card.type), card.type)
+    const rarity = el("span", "rarity", card.rarete)
+    const price = el("p", "card__price", formatPrix(card.prix))
+    const button = el("button", "btn btn--primary", "Ajouter")
+    button.setAttribute("type", "button")
+    button.dataset.add = card.id
+    meta.append(typeBadge, rarity)
+    article.append(image, number, cardName, meta, price, button)
+    grid.append(article)
+    if(card.stock === 0){
+      article.classList.add("out-of-stock")
+      button.disabled = true
+    }
+  }
 }
 
 /**

@@ -10,8 +10,7 @@
  * Exemple : findCard(cards, 4) → { id: 4, nom: "Tidalix", … }
  */
 export function findCard(cards, id) {
-  // TODO : cards.find(...)
-  return undefined;
+  return cards.find((card) => card.id === id)
 }
 
 /**
