@@ -45,7 +45,8 @@ function refresh() {
 
 // Recherche : à chaque frappe
 searchInput.addEventListener("input", () => {
-  // TODO : mettez à jour state.filters.term avec la valeur du champ, puis refresh()
+  state.filters.term = searchInput.value
+  refresh()
 });
 
 // Types : UN SEUL écouteur sur #types (délégation)
