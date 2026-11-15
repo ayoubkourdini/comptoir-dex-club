@@ -49,6 +49,28 @@ export function el(tag, className = "", text = "") {
  * Seul le bouton du type actif a la classe is-active.
  */
 export function renderTypes(counts, activeType) {
+  typesBox.innerHTML = ""
+  let total = 0
+  for (const typeName in counts ) {
+    total += counts[typeName]
+  }
+  const allButton = el("button", "type-btn", "Tous (" + total + ")")
+  allButton.setAttribute("type", "button")
+  allButton.dataset.type = "Tous"
+  typesBox.append(allButton)
+  if(activeType === "Tous"){
+    allButton.classList.add("is-active")
+  }
+  for(const typeName in counts) {
+    const button = el("button", "type-btn", typeName + " (" + counts[typeName] + ")")
+    button.setAttribute("type", "button")
+    button.dataset.type = typeName
+    if(activeType === typeName) {
+      button.classList.add("is-active")
+    }
+    typesBox.append(button)
+  }
+
   // TODO 1. Videz #types
   // TODO 2. Créez le bouton « Tous (…) »
   // TODO 3. Pour chaque type de counts (for...in ou Object.keys), créez un bouton
@@ -67,22 +89,6 @@ export function renderCount(n) {
   }
 }
 
-/**
- * Affiche les cartes dans #grid.
- * list = les cartes à afficher ; cart = le panier (pour la classe is-selected, palier 2).
- * Si list est vide : un <p class="empty">Aucune carte trouvée</p>.
- * Modèle d'une carte :
- *   <article class="card" data-id="1">
- *     <img class="card__img" src="images/emberkit.svg" alt="Emberkit">
- *     <p class="card__num">#001</p>
- *     <h3 class="card__name">Emberkit</h3>
- *     <p class="card__meta"><span class="badge type-feu">Feu</span> <span class="rarity">Commune</span></p>
- *     <p class="card__price">12 DH</p>
- *     <button class="btn btn--primary" type="button" data-add="1">Ajouter</button>
- *   </article>
- * - stock 0 : classe out-of-stock sur l'article ET bouton désactivé (disabled = true)
- * - palier 2 : classe is-selected si la carte est dans le panier (cart.some(...))
- */
 export function renderGrid(list, cart) {
   grid.innerHTML = "";
   if (list.length === 0) {

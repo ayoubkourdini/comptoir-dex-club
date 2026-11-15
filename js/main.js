@@ -39,11 +39,7 @@ function refresh() {
   ui.renderStats(dataCards.getStats(visible));
 }
 
-// =============================================================
-// PALIER 1
-// =============================================================
 
-// Recherche : à chaque frappe
 searchInput.addEventListener("input", () => {
   state.filters.term = searchInput.value
   refresh()
@@ -51,9 +47,12 @@ searchInput.addEventListener("input", () => {
 
 // Types : UN SEUL écouteur sur #types (délégation)
 typesBox.addEventListener("click", (event) => {
-  // TODO 1. Retrouvez le bouton cliqué : event.target.closest("[data-type]")
-  // TODO 2. Si on a cliqué à côté d'un bouton, on s'arrête (return)
-  // TODO 3. state.filters.type = bouton.dataset.type ; refresh()
+  const typeButton = event.target.closest("[data-type]")
+  if(typeButton === null){
+    return
+  }
+  state.filters.type = typeButton.dataset.type
+  refresh()
 });
 
 // Grille : UN SEUL écouteur sur #grid (délégation)
